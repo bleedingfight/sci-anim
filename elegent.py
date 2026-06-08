@@ -1,6 +1,5 @@
 from manim import *
 
-
 # ==============================================================================
 # 一、核心框架层（基础设施，写一次永久复用）
 # ==============================================================================
@@ -35,7 +34,11 @@ class InteractionManager:
     def unregister(self, trigger_id: str):
         self.registry.pop(trigger_id, None)
 
-    def trigger(self, trigger_id: str, anim_func=None, anim_map: dict | None = None, **kwargs):
+    def trigger(self,
+                trigger_id: str,
+                anim_func=None,
+                anim_map: dict | None = None,
+                **kwargs):
         """触发联动
 
         anim_func: 统一动画函数，对所有注册对象施加相同逻辑
@@ -138,20 +141,15 @@ class SceneB_Interaction(SceneSegment):
         if old_group:
             self.scene.play(old_group.animate.scale(0.6).to_edge(LEFT))
 
-        grid = (
-            VGroup(
-                *[
-                    VGroup(*[Square(side_length=0.6) for _ in range(3)]).arrange(
-                        RIGHT, buff=0.1
-                    )
-                    for _ in range(3)
-                ]
-            )
-            .arrange(DOWN, buff=0.1)
-            .move_to(ORIGIN)
-        )
+        grid = (VGroup(*[
+            VGroup(*[Square(side_length=0.6)
+                     for _ in range(3)]).arrange(RIGHT, buff=0.1)
+            for _ in range(3)
+        ]).arrange(DOWN, buff=0.1).move_to(ORIGIN))
 
-        circle_2 = Circle(radius=0.4, color=PURPLE).next_to(grid, RIGHT, buff=1)
+        circle_2 = Circle(radius=0.4, color=PURPLE).next_to(grid,
+                                                            RIGHT,
+                                                            buff=1)
 
         self.scene.play(FadeIn(grid), FadeIn(circle_2))
 
@@ -159,7 +157,8 @@ class SceneB_Interaction(SceneSegment):
         self.im.register("link_2", [circle_2, grid[1]])
         self.im.register("link_3", [grid[2]])
 
-        self.im.trigger("link_1", anim_func=lambda obj: Indicate(obj, color=YELLOW))
+        self.im.trigger("link_1",
+                        anim_func=lambda obj: Indicate(obj, color=YELLOW))
         self.scene.wait(0.3)
 
         self.im.trigger(
@@ -170,12 +169,12 @@ class SceneB_Interaction(SceneSegment):
         self.im.trigger(
             "link_2",
             anim_func=lambda obj: obj.animate.scale(1 / 1.2).set_color(
-                WHITE if isinstance(obj, VGroup) else PURPLE
-            ),
+                WHITE if isinstance(obj, VGroup) else PURPLE),
         )
         self.scene.wait(0.3)
 
-        self.im.trigger("link_3", anim_func=lambda obj: Indicate(obj, color=RED))
+        self.im.trigger("link_3",
+                        anim_func=lambda obj: Indicate(obj, color=RED))
 
 
 class SceneC_End(SceneSegment):
