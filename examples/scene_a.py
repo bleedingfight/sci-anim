@@ -1,5 +1,10 @@
+import sys
+from pathlib import Path
+
+sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
+
 from framework import SceneSegment
-from manim import Square, VGroup, ORIGIN, RED, BLUE, GREEN, YELLOW, WHITE, FadeIn, Create, SurroundingRectangle
+from manim import Square, VGroup, ORIGIN, UP, LEFT, RIGHT, RED, BLUE, GREEN, YELLOW, WHITE, FadeIn, Create, SurroundingRectangle
 
 
 class SceneA_Layout(SceneSegment):

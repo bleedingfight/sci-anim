@@ -1,4 +1,9 @@
-from framework import SceneSegment
+import sys
+from pathlib import Path
+
+sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
+
+from framework import SceneSegment, FreeLayout, FadeTransition
 from manim import (
     Square, Circle, VGroup,
     ORIGIN, RIGHT, DOWN, UP, LEFT,
@@ -10,11 +15,8 @@ from manim import (
 class SceneB_Interaction(SceneSegment):
     """场景 B：承接旧场景，创建网格并注册同步联动"""
 
-    def enter(self):
-        old_frame = self.ctx.get("frame")
-        if old_frame:
-            self.scene.play(FadeOut(old_frame))
-            self.ctx.remove("frame")
+    layout = FreeLayout
+    transition = FadeTransition(fade_out_key="frame")
 
     def play(self):
         old_group = self.ctx.get("group")
@@ -36,6 +38,9 @@ class SceneB_Interaction(SceneSegment):
         )
 
         circle_2 = Circle(radius=0.4, color=PURPLE).next_to(grid, RIGHT, buff=1)
+
+        self.pipeline.track(grid)
+        self.pipeline.track(circle_2)
 
         self.scene.play(FadeIn(grid), FadeIn(circle_2))
 
