@@ -4,17 +4,16 @@ from pathlib import Path
 sys.path.insert(0, str(Path(__file__).resolve().parent.parent.parent))
 
 from framework import Pipeline
+from segments import IntroSegment, OutroSegment
 from manim import Scene
 
-from intro import IntroSegment
 from interaction import InteractionSegment
-from end import EndSegment
 
 
 class WorkflowDemo(Scene):
     def construct(self):
         Pipeline(self) \
-            .add(IntroSegment()) \
+            .add(IntroSegment("分镜编排演示", subtitle="Pipeline + SceneSegment")) \
             .add(InteractionSegment()) \
-            .add(EndSegment()) \
+            .add(OutroSegment()) \
             .run()

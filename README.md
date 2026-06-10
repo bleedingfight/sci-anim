@@ -17,15 +17,17 @@ sci-anim/
 │   ├── segment.py          # SceneSegment：分镜基类
 │   ├── strategies.py       # 布局策略（Row/Column/Free）
 │   └── transitions.py      # 转场（Cut/Fade）
+├── segments/                # 可复用的公共分镜
+│   ├── __init__.py
+│   ├── intro.py            # IntroSegment：片头
+│   └── outro.py            # OutroSegment：片尾
 ├── mobjects/                # 可复用的自定义 mobject
 │   ├── __init__.py
 │   └── text_grid.py        # TextGrid 文本网格组件
 ├── scenes/                  # 用户动画项目（按视频/主题组织）
 │   └── workflow_demo/      # 示例：分镜编排演示
 │       ├── main.py         # 入口 Scene，组装 Pipeline
-│       ├── intro.py        # Segment：开场
-│       ├── interaction.py  # Segment：联动交互
-│       └── end.py          # Segment：收尾
+│       └── interaction.py  # Segment：联动交互
 └── examples/               # 框架单项能力 demo
     ├── layout_demo.py
     ├── layout_ui_demo.py
@@ -49,7 +51,27 @@ scenes/
 - **一个目录 = 一个视频项目**，所有相关 Segment 放在同一目录下
 - `main.py` 是唯一入口，负责将 Segment 串入 Pipeline
 - 同目录下的 Segment 之间用相对 import，不同项目间零耦合
+- 片头片尾等通用分镜从 `segments/` 导入，不在项目内重复实现
 - `examples/` 只放框架单项能力的 demo，不放用户项目
+
+### 公共分镜
+
+`segments/` 提供开箱即用的通用分镜，所有项目共享：
+
+```python
+from segments import IntroSegment, OutroSegment
+
+Pipeline(self) \
+    .add(IntroSegment("排序算法", subtitle="从冒泡到快排")) \
+    .add(MyContentSegment()) \
+    .add(OutroSegment()) \
+    .run()
+```
+
+| Segment | 参数 | 说明 |
+|---------|------|------|
+| `IntroSegment` | `title`, `subtitle=None`, `title_scale=1.6`, `subtitle_scale=0.7` | 片头：标题写入 + 副标题淡入 |
+| `OutroSegment` | `closing_text="谢谢观看"`, `text_scale=1.2` | 片尾：清场 + 结束语 |
 
 ## 场景构建流程
 
