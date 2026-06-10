@@ -1,14 +1,14 @@
 import sys
 from pathlib import Path
 
-sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
+sys.path.insert(0, str(Path(__file__).resolve().parent.parent.parent))
 
 from framework import SceneSegment
 from manim import Square, VGroup, ORIGIN, UP, LEFT, RIGHT, RED, BLUE, GREEN, YELLOW, WHITE, FadeIn, Create, SurroundingRectangle
 
 
-class SceneA_Layout(SceneSegment):
-    """场景 A：创建组件、编排相对位置、整体居中加框"""
+class IntroSegment(SceneSegment):
+    """开场：创建组件、编排相对位置、整体居中加框"""
 
     def play(self):
         a = Square(color=RED, side_length=0.6)

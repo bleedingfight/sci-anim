@@ -1,7 +1,7 @@
 import sys
 from pathlib import Path
 
-sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
+sys.path.insert(0, str(Path(__file__).resolve().parent.parent.parent))
 
 from framework import SceneSegment, FreeLayout, FadeTransition
 from manim import (
@@ -12,8 +12,8 @@ from manim import (
 )
 
 
-class SceneB_Interaction(SceneSegment):
-    """场景 B：承接旧场景，创建网格并注册同步联动"""
+class InteractionSegment(SceneSegment):
+    """承接旧场景，创建网格并注册同步联动"""
 
     layout = FreeLayout
     transition = FadeTransition(fade_out_key="frame")
